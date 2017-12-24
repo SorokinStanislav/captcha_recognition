@@ -6,7 +6,7 @@ import operator
 import cv2
 from PIL import Image
 
-TEMPLATE_FILE_NAME = '../../dataset2/template2.png'
+TEMPLATE_FILE_NAME = 'template.png'
 TEMP_FILE_NAME = 'temp.png'
 IMAGE_IN_TEMPLATE = 'out.png'
 
@@ -15,8 +15,7 @@ def insert_into_template(file_name, angle):
     im = Image.open(TEMPLATE_FILE_NAME)
     newImage = Image.open(file_name)
     im.paste(newImage, (318, 80))
-    # im.show()
-    im.save('out-' + str(angle) + '.png')
+    im.save(IMAGE_IN_TEMPLATE)
 
 
 def is_valid_ascii_code(symbol):
@@ -37,7 +36,7 @@ def resolve_symbol(file_name):
         rotated = imutils.rotate_bound(image, angle)
         cv2.imwrite(TEMP_FILE_NAME, rotated)
         insert_into_template(TEMP_FILE_NAME, angle)
-        text = pt.image_to_string(Image.open('out-' + str(angle) + '.png'))
+        text = pt.image_to_string(Image.open(IMAGE_IN_TEMPLATE))
         print(str(angle) + ': ' + text)
 
         length = len(text)
@@ -53,9 +52,9 @@ def resolve_symbol(file_name):
                         symbols[key] = 1
 
     os.remove(TEMP_FILE_NAME)
-    # os.remove(IMAGE_IN_TEMPLATE)
+    os.remove(IMAGE_IN_TEMPLATE)
 
     return max(symbols.items(), key=operator.itemgetter(1))[0]
-    # return ''
+
 
 
