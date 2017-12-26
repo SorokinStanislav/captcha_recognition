@@ -28,8 +28,8 @@ def is_valid_ascii_code(symbol):
 
 def resolve_symbol(file_name):
     image = cv2.imread(file_name)
-    # cv2.imshow("Output", image)
-    # cv2.waitKey(0)
+    cv2.imshow("Output", image)
+    cv2.waitKey(0)
     symbols = {}
 
     for angle in np.arange(0, 360, 1):
@@ -37,14 +37,14 @@ def resolve_symbol(file_name):
         cv2.imwrite(TEMP_FILE_NAME, rotated)
         insert_into_template(TEMP_FILE_NAME, angle)
         text = pt.image_to_string(Image.open(IMAGE_IN_TEMPLATE))
-        print(str(angle) + ': ' + text)
+        # print(str(angle) + ': ' + text)
 
         length = len(text)
         if length > 4 and text[0] == 'F' and text[1] == 'F' and text[length - 1] == 'F' and text[length - 2] == 'F':
             detection = text[2:-2].replace(" ", "")
             if len(detection) == 1:
                 key = text[2]
-                print(key)
+                # print(key)
                 if is_valid_ascii_code(key):
                     if key in symbols.keys():
                         symbols[key] += 1

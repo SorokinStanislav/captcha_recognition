@@ -14,6 +14,8 @@ SYMBOL_TEMP_FILE = 'symbol.png'
 def recognize_captcha(file_name, mode='usual'):
     ref = cv2.imread(file_name)
     ref = imutils.resize(ref, width=400)
+    # cv2.imshow("Output", ref)
+    # cv2.waitKey(0)
 
     if mode == 'usual':
         ref = cv2.cvtColor(ref, cv2.COLOR_BGR2GRAY)
@@ -27,7 +29,11 @@ def recognize_captcha(file_name, mode='usual'):
         ref = cv2.erode(ref, kernel, iterations = 1)
     elif mode == 'noise':
         ref = cv2.cvtColor(ref, cv2.COLOR_BGR2GRAY)
+        cv2.imshow("Output", ref)
+        cv2.waitKey(0)
         ref = cv2.threshold(ref, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+        cv2.imshow("Output", ref)
+        cv2.waitKey(0)
         kernel = np.ones((3, 3), np.uint8)
         ref = cv2.morphologyEx(ref, cv2.MORPH_OPEN, kernel)
     elif mode == 'corn':
@@ -53,8 +59,8 @@ def recognize_captcha(file_name, mode='usual'):
         ref = cv2.cvtColor(ref, cv2.COLOR_BGR2GRAY)
         ref = cv2.threshold(ref, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
-    # cv2.imshow("Output", ref)
-    # cv2.waitKey(0)
+    cv2.imshow("Output", ref)
+    cv2.waitKey(0)
 
     # find contours in the MICR image (i.e,. the outlines of the
     # characters) and sort them from left to right
